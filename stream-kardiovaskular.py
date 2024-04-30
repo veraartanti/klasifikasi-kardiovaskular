@@ -30,10 +30,13 @@ heart_diagnosis =''
 
 # membuat tombol prediksi
 if st.button('Klasifikasi Penyakit Kardiovaskular'):
-    heart_prediction = model.predict([[time, serum_creatinine, ejection_fraction, age, serum_sodium, creatinine_phosphokinase, platelets]])
-
-    if (heart_prediction[0]==1):
-        heart_diagnosis = 'Pasien Meninggal'
+    if all(val == 0 for val in [time, serum_creatinine, ejection_fraction, age, serum_sodium, creatinine_phosphokinase, platelets]):
+        heart_diagnosis = 'Data Belum Terisi'
     else:
-        heart_diagnosis = 'Pasien Tidak Meninggal'
+        heart_prediction = model.predict([[time, serum_creatinine, ejection_fraction, age, serum_sodium, creatinine_phosphokinase, platelets]])
+
+        if heart_prediction[0] == 1:
+            heart_diagnosis = 'Pasien Meninggal'
+        else:
+            heart_diagnosis = 'Pasien Tidak Meninggal'
 st.success(heart_diagnosis)
